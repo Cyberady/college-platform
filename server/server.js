@@ -4,12 +4,19 @@ import cors from "cors";
 
 const app = express();
 
+
+app.get("/", (req, res) => {
+  res.send("API is running 🚀");
+});
+
 app.use(cors());
 app.use(express.json());
 
 /*
  GET /colleges
 */
+
+
 app.get("/colleges", async (req, res) => {
   try {
     const { search, location, maxFees } = req.query;
