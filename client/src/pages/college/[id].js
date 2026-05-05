@@ -19,7 +19,7 @@ export default function CollegeDetail() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:5000/colleges/${id}`)
+    fetch(`https://college-platform-6rgd.onrender.com/colleges/${id}`)
       .then((res) => res.json())
       .then((data) => setCollege(data))
       .catch((err) => console.error(err));

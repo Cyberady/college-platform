@@ -27,7 +27,7 @@ export default function Home() {
   const fetchColleges = async () => {
     setLoading(true);
 
-    let url = "http://localhost:5000/colleges?";
+    let url = "https://college-platform-6rgd.onrender.com/colleges?";
     if (search) url += `search=${search}&`;
     if (location) url += `location=${location}&`;
     if (maxFees) url += `maxFees=${maxFees}&`;
@@ -61,7 +61,7 @@ export default function Home() {
     }
 
     const res = await fetch(
-      `http://localhost:5000/compare?ids=${selected.join(",")}`
+      `https://college-platform-6rgd.onrender.com/compare?ids=${selected.join(",")}`
     );
     const data = await res.json();
     setCompareData(data);
