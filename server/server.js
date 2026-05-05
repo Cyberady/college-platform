@@ -1,18 +1,14 @@
 import express from "express";
 import pool from "./db.js";
 import cors from "cors";
+
 const app = express();
+
 app.use(cors());
-
-
 app.use(express.json());
 
 /*
  GET /colleges
- Features:
- - search by name
- - filter by location
- - filter by max fees
 */
 app.get("/colleges", async (req, res) => {
   try {
@@ -37,13 +33,16 @@ app.get("/colleges", async (req, res) => {
     }
 
     const result = await pool.query(query, values);
-
     res.json(result.rows);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+/*
+ GET /colleges/:id
+*/
 app.get("/colleges/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -62,11 +61,15 @@ app.get("/colleges/:id", async (req, res) => {
     }
 
     res.json(result.rows[0]);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+/*
+ GET /compare
+*/
 app.get("/compare", async (req, res) => {
   try {
     const { ids } = req.query;
@@ -75,15 +78,12 @@ app.get("/compare", async (req, res) => {
       return res.status(400).json({ error: "Please provide IDs" });
     }
 
-    // Convert "1,2,3" → [1,2,3]
     const idArray = ids.split(",").map(Number);
 
-    // ✅ Validate IDs
     if (idArray.some(isNaN)) {
       return res.status(400).json({ error: "Invalid IDs" });
     }
 
-    // ✅ ADD HERE (IMPORTANT)
     if (idArray.length > 3) {
       return res.status(400).json({ error: "Max 3 colleges allowed" });
     }
@@ -94,11 +94,15 @@ app.get("/compare", async (req, res) => {
     );
 
     res.json(result.rows);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+/* 🚀 DEPLOY FIX */
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
